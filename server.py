@@ -1,14 +1,28 @@
 import socket
 
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-host = socket.gethostname() # Get local machine host
-port = 12345 # Reserve a port for your operation
+host = socket.gethostname()
+port = 12346
 
-s.bind((host,port)) 
-s.listen(5) # Terminate after 5 requests
+print "WAiting for connection"
+s.bind((host,port))
+s.listen(5)
 
-while True :
-	(client_thread, address) = s.accept() 
-	print "connected to client. Address:",address
-	client_thread.send("Thank You. Connection Established") # Send a message to the client
-	client_thread.close()
+client,address = s.accept()
+print "Connection Esatablished"
+print "Enter your message"
+send_data = raw_input()
+client.send(send_data)
+recv_data = client.recv(1024)
+print "Sent by client :"
+print(recv_data)
+
+#
+# while True:
+#     (client_thread,address) = s.accept()
+#     print "Recieved from client" + address + ":"
+#     recv_data = client_thread.recv(1024)
+#     print(recv_data)
+#     print "Enter Mesaage:"
+#     s = raw_input()
+#     client_thread.send(s)
